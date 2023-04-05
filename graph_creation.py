@@ -1,4 +1,3 @@
-#Dictionary Creation
 import pandas as pd
 
 class TitleDictionary:
@@ -9,49 +8,34 @@ class TitleDictionary:
         self.profession_dict = self._create_profession_dict()
 
     def _create_title_dict(self):
-        # Dictionary structure:
-            # key: nconst
-            # value: list of movie_names(primaryTitle's) actors/directors involved in
-        #Create a dictionary in the format:
-        #{nconst:[movie_names actors/directors involved in], here the actor/director is determined by id: nconst}
-        #example dictionary looks like:
-        #{'nm6551690': ['The Dreaded Hong Kong SneezeThe Great Bank Robbery',
-         #  'The Reluctant RobotThe Royal Foil',
-         #  'Theres No Business Like Snow Business'],
-         #
-         #  'nm8002705': ['The Awful Awakening of Claudius Brodequin',
-         #  'The Dreaded Arrival of Captain Tardivaux',
-         #  'The Glorious Triumph of Barthelemey Piechut',
-         #  'The Magnificent Idea of Barthelemey Piechut the Mayor',
-         #  'The Painful Infliction of Nicholas the Beadle',
-         #  'The Scandalous Outcome of a Night of Destruction',
-         #  'The Spirited Protest of Justine Pulet',
-         #  'The Triumphant Inauguration of a Municipal Amenity']}
         title_dict = {}
+        data = self.df.values.tolist()
 
-        return title_dict #return the Created {nconst:[movie_titles]} dictionary
+        for entry in data:
+            if entry[1] in title_dict:
+                title_dict[entry[1]].append(entry[2])
+            else:
+                title_dict[entry[1]] = [entry[2]]
+
+        # print(title_dict['nm6551690']) # debug
+        return title_dict 
 
     def _create_profession_dict(self):
-        # Dictionary structure:
-            # key: nconst
-            # value: actors/directors names with tail as '_a' or '_d'
-        #Create a dictionary in the format:
-        #{nconst:[actors/directors names], here the actor/director is determined by id: nconst}
-        #while creating this dictionary values put _d at end of the name to indicate the person name as director and _a to represent the actor.
-        #See the below example to understand more clearly.
-        #example dictionary looks like:
-        #{'nm0465106': 'Hal Roach Jr._d',
-         # 'nm6081065': 'Benjamin H. Kline_d',
-         # 'nm0962553': 'William Asher_d',
-         # 'nm4337938': 'Rod Serling_a',
-         # 'nm5829291': 'Sydney Newman_d',
-         # 'nm7171552': 'Wolfgang Menge_a',
-         # 'nm0231693': 'Blake Edwards_d',
-         # 'nm6446679': 'Bob Wehling_a'}
         profession_dict = {}
+        data = self.df.values.tolist()
 
-        return profession_dict #return the Created {nconst:person_name_a/d} dictionary
+        for entry in data:
+            if entry[1] not in profession_dict:
+                profession = entry[3]
+                if entry[4] == 'actor':
+                    profession+='_a'
+                else:
+                    profession+='_d'
 
+                profession_dict[entry[1]] = profession
+
+        # print(profession_dict['nm6446679']) # debug
+        return profession_dict
 
 #Graph Network Creation
 class MovieNetwork:
