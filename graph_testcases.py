@@ -42,13 +42,13 @@ def movie_network_test():
     global total
     global f
 
-    test = data["movie_network_test"]
-    for key in test:
-        if graph[key] != test[key]:
-            print(key)
-            print(graph[key])
-            print()
-            print(test[key])
+    # test = data["movie_network_test"]
+    # for key in test:
+    #     if graph[key] != test[key]:
+    #         print(key)
+    #         print(graph[key])
+    #         print()
+    #         print(test[key])
 
     if(data["movie_network_test"] == graph):
         print("\nMovie Network is Successfully created")
@@ -179,12 +179,16 @@ testcase = {}
 
 # testcase['dictionary_test'] = dictionary_test()
 testcase['movie_network_test'] = movie_network_test()
-# testcase['testcase_1_1'] = testcase_1_1()
-# testcase['testcase_1_2'] = testcase_1_2()
-# testcase['testcase_1_3'] = testcase_1_3()
-# testcase['testcase_2_1'] = testcase_2_1()
-# testcase['testcase_2_2'] = testcase_2_2()
-# testcase['testcase_2_3'] = testcase_2_3()
+
+# bfs
+testcase['testcase_1_1'] = testcase_1_1()
+testcase['testcase_1_2'] = testcase_1_2()
+testcase['testcase_1_3'] = testcase_1_3()
+
+# dfs
+testcase['testcase_2_1'] = testcase_2_1()
+testcase['testcase_2_2'] = testcase_2_2()
+testcase['testcase_2_3'] = testcase_2_3()
 # testcase['testcase_3'] = testcase_3()
 # testcase['testcase_4'] = testcase_4()
 

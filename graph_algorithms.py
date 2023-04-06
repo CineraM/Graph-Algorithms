@@ -1,49 +1,56 @@
+def bfs_queue_helper(queue, nodes):
+    for node in nodes: queue.append(node)
+    return queue
+
 def bfs(graph, start_node, search_node=None):
-    return
-    # graph: a dictionary representing the graph to be traversed.
-    # start_node: a string representing the starting node of the traversal.
-    # search_node: an optional string representing the node being searched for in the graph.
-    # Note: If the given start_node belongs to one strongly connected component then the other nodes belong to that
-           # particular component can only be traversed. But the nodes belonging to other components must not be traversed
-           # if those nodes were not reachable from the given start_node.
+    visited = []
+    path = []
+    queue = [start_node]
 
-    #The output depends on whether the search_node is provided or not:
-        #1. If search_node is provided, the function returns 1 if the node is found during the search and 0 otherwise.
-        #2. If search_node is not provided, the function returns a list containing the order in which the nodes were visited during the search.
+    while len(queue) > 0:
+        cur_node = queue.pop(0)
+        if cur_node not in visited:
+            visited.append(cur_node)
+            queue = bfs_queue_helper(queue, graph[cur_node])
+            path.append(cur_node)
 
-    #Useful code snippets (not necessary but you can use if required)
-    if search_node and node == search_node:
-        return 1  # search node found
+        if  search_node == cur_node:
+            return 1  # search node found
 
     if search_node is not None:
         return 0  # search node not found
 
-    return path  # search node not provided, return entire path [list of nconst values of nodes visited]
+    return path 
 
+dfs_path = []
+dfs_flag = False
+def dfs(graph, start_node, search_node=None):
+    global dfs_path, dfs_flag
+    dfs_path = []
+    dfs_flag = False
 
-def dfs(graph, start_node, visited=None, path=None, search_node=None):
-    return
-    # graph: a dictionary representing the graph
-    # start_node: the starting node for the search
-    # visited: a set of visited nodes (optional, default is None)
-    # path: a list of nodes in the current path (optional, default is None)
-    # search_node: the node to search for (optional, default is None)
-    # Note: If the given start_node belongs to one strongly connected component then the other nodes belong to that
-           # particular component can only be traversed. But the nodes belonging to other components must not be traversed
-           # if those nodes were not reachable from the given start_node.
+    dfs_recursion(graph, start_node, search_node)
 
-    # The function returns:
-        # 1. If search_node is provided, the function returns 1 if the node is found and 0 if it is not found.
-        # 2. If search_node is not provided, the function returns a list containing the order in which the nodes were visited during the search.
-
-    #Useful code snippets (not necessary but you can use if required)
-    if start_node == search_node:
-        return 1 # search node found
-
+    if dfs_flag: return 1
     if search_node is not None:
-        return 0  # search node not found
+        return 0
+    
+    return dfs_path
 
-    return path  # search node not provided, return entire path [list of nconst id's of nodes visited]
+def dfs_recursion(graph, cur_node, search_node):
+    global dfs_path, dfs_flag
+
+    if dfs_flag: return # search node found
+    if search_node == cur_node: # search node found, exit out of all dfs
+        dfs_flag = True
+
+    if cur_node not in dfs_path:
+        dfs_path.append(cur_node)
+    else:
+        return
+
+    for node in graph[cur_node]:
+        dfs_recursion(graph, node, search_node)
 
 
 
