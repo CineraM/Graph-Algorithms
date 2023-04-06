@@ -1,4 +1,5 @@
 def bfs(graph, start_node, search_node=None):
+    return
     # graph: a dictionary representing the graph to be traversed.
     # start_node: a string representing the starting node of the traversal.
     # search_node: an optional string representing the node being searched for in the graph.
@@ -21,6 +22,7 @@ def bfs(graph, start_node, search_node=None):
 
 
 def dfs(graph, start_node, visited=None, path=None, search_node=None):
+    return
     # graph: a dictionary representing the graph
     # start_node: the starting node for the search
     # visited: a set of visited nodes (optional, default is None)
@@ -46,6 +48,7 @@ def dfs(graph, start_node, visited=None, path=None, search_node=None):
 
 
 def dijkstra(graph, start_node, end_node):
+    return
     # graph: a dictionary representing the graph where the keys are the nodes and the values
             # are dictionaries representing the edges and their weights.
     # start_node: the starting node to begin the search.
@@ -69,6 +72,7 @@ def dijkstra(graph, start_node, end_node):
 
 # (strongly connected components)
 def kosaraju(graph):
+    return
     # graph: a dictionary representing the graph where the keys are the nodes and the values
             # are dictionaries representing the edges and their weights.
     #Note: Here you need to call dfs function multiple times so you can Implement seperate

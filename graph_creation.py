@@ -12,12 +12,13 @@ class TitleDictionary:
         data = self.df.values.tolist()
 
         for entry in data:
+            title = entry[2]
             if entry[1] in title_dict:
-                title_dict[entry[1]].append(entry[2])
+                title_dict[entry[1]].append(title)
             else:
-                title_dict[entry[1]] = [entry[2]]
+                title_dict[entry[1]] = [title]
 
-        # print(title_dict['nm6551690']) # debug
+        # print(title_dict['nm6081065']) # debug
         return title_dict 
 
     def _create_profession_dict(self):
@@ -40,41 +41,64 @@ class TitleDictionary:
 #Graph Network Creation
 class MovieNetwork:
     def __init__(self, name_movie_dict, nconst_ar_dr):
-        self.graph = {} #graph dictionary initialization
-        self.name_movie_dict = name_movie_dict #name_movie_dict is nothing but "title_dict" dictionary refer to above example in TitleDictionary.
-        self.nconst_ar_dr = nconst_ar_dr #it is "profession_dict" dictionary refer to above example in TitleDictionary.
-
-
+        self.graph = {} 
+        self.name_movie_dict = name_movie_dict 
+        self.nconst_ar_dr = nconst_ar_dr 
+        
     def add_node(self, node):
-        #write code to add node to the graph (dictionary data-structure)
+        self.graph[node] = {}
 
-    def add_edge(self, node1, node2, nconst_ar_dr, weight=1):
-        #node 1, node 2: nconst id's
-        #nconst_ar_dr is nothing but "profession_dict" dictionary refer to above example in TitleDictionary.
-        #weight is number of common movie titles exists in node1 and node2
-        #Before adding Edge weights you must follow the below Instructions:
-            #1. consider only the node1->node2 connection or edge, only if node1 and node2 have more than 2 movies in common.
-            #2. Let node1="actor" and node2="director" then node1->node2 edge should not be taken implies {actor:{director:6}} must not be taken.
-                # But node2->node1 should be taken implies {director:{actor:6}} must be taken.
-            #3. if node1 and node2 are assigned with both actors or directors then bi-directional edge must be added implies
-                #{actor1:{actor2:4}} and {actor2:{actor1:4}} or {director1:{director2:7}} and {director2:{director1:7}} both ways are true
-                #and must consider in dictionary.
-        #write code to add edge to the graph implies add weight between node1 and node 2
-        #Example weight assignment looks like:
-        # {'nm1172995': {'nm0962553': 7}} here the weight 7 is nothing but the number of common
-        #movies between two persons either actor/director (nm1172995 and nm0962553)
+    def edge_bi(self, node1, node2, weigh):
+        if node1 not in self.graph: self.add_node(node1)
+        if node2 not in self.graph: self.add_node(node2)
 
-    def create_graph(self):
-        #By following the above conditions create a graph (use only dictionary datastructure: self.graph)
-        #example graph looks like:
-          # {'nm0962553': {'nm8630849': 3,
-             #  'nm1172995': 7,
-             #  'nm8742830': 16,
-             #  'nm6225202': 4,
-             #  'nm4366294': 4},
-             # 'nm8630849': {},
-             # 'nm1172995': {'nm0962553': 7},
-             # 'nm8742830': {'nm0962553': 16},
-             # 'nm6225202': {}}
+        self.graph[node1][node2] = weigh
+        self.graph[node2][node1] = weigh
 
-        return graph
+    def edge_single(self, node1, node2, weigh):
+        if node1 not in self.graph: self.add_node(node1)
+        if node2 not in self.graph: self.add_node(node2)
+        self.graph[node1][node2] = weigh
+
+    # nconst_ar_dr, weight=1
+    # old parameters, not needed
+    def add_edge(self, node1, node2):
+        weight = 0
+        node1_movies = self.name_movie_dict[node1]
+        node2_movies = self.name_movie_dict[node2]
+        # checking movies in common
+        for movie in node1_movies:
+            if movie in node2_movies:
+                weight+=1
+        # return if less than 2 movies in common 
+        if weight < 2: 
+            return
+        
+        node1_ar_dr = self.nconst_ar_dr[node1]
+        node1_profession = node1_ar_dr[len(node1_ar_dr)-1:]
+
+        node2_ar_dr = self.nconst_ar_dr[node2]
+        node2_profession = node2_ar_dr[len(node2_ar_dr)-1:]
+        
+        if node1_profession == "a":
+            if node1_profession == node2_profession:
+                self.edge_bi(node1, node2, weight)
+            else:
+                self.edge_single(node2, node1, weight)
+        else:
+            if node2_profession == "a":
+                self.edge_single(node1, node2, weight)
+            else:
+                self.edge_bi(node1, node1, weight)
+
+    def get_graph(self):
+        for node1 in self.nconst_ar_dr:
+            for node2 in self.nconst_ar_dr:
+                if node1 == node2:
+                    continue
+
+                if node1 not in self.graph: self.add_node(node1)
+                if node2 not in self.graph: self.add_node(node2)
+                self.add_edge(node1, node2)
+        
+        return self.graph

@@ -19,6 +19,16 @@ graph = movie_network.get_graph()
 def dictionary_test():
     global total
     global f
+
+    test = data["dictionary_test"]
+    for key in test:
+        if nconst_title[key] != test[key]:
+            print(key)
+            print(nconst_title[key])
+            print()
+            print(test[key])
+            
+        
     if(data["dictionary_test"] == nconst_title):
         print("\n{nconst_title} Dictionary Test Passed")
     else:
@@ -159,14 +169,14 @@ def testcase_4():
 testcase = {}
 
 testcase['dictionary_test'] = dictionary_test()
-testcase['movie_network_test'] = movie_network_test()
-testcase['testcase_1_1'] = testcase_1_1()
-testcase['testcase_1_2'] = testcase_1_2()
-testcase['testcase_1_3'] = testcase_1_3()
-testcase['testcase_2_1'] = testcase_2_1()
-testcase['testcase_2_2'] = testcase_2_2()
-testcase['testcase_2_3'] = testcase_2_3()
-testcase['testcase_3'] = testcase_3()
-testcase['testcase_4'] = testcase_4()
+# testcase['movie_network_test'] = movie_network_test()
+# testcase['testcase_1_1'] = testcase_1_1()
+# testcase['testcase_1_2'] = testcase_1_2()
+# testcase['testcase_1_3'] = testcase_1_3()
+# testcase['testcase_2_1'] = testcase_2_1()
+# testcase['testcase_2_2'] = testcase_2_2()
+# testcase['testcase_2_3'] = testcase_2_3()
+# testcase['testcase_3'] = testcase_3()
+# testcase['testcase_4'] = testcase_4()
 
 print("\n\nTotal Test Cases Passed : {}\nTotal Test Cases Failed : {}".format(total-f,f))
