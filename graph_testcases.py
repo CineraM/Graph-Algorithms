@@ -41,6 +41,15 @@ def dictionary_test():
 def movie_network_test():
     global total
     global f
+
+    test = data["movie_network_test"]
+    for key in test:
+        if graph[key] != test[key]:
+            print(key)
+            print(graph[key])
+            print()
+            print(test[key])
+
     if(data["movie_network_test"] == graph):
         print("\nMovie Network is Successfully created")
     else:
@@ -168,8 +177,8 @@ def testcase_4():
 
 testcase = {}
 
-testcase['dictionary_test'] = dictionary_test()
-# testcase['movie_network_test'] = movie_network_test()
+# testcase['dictionary_test'] = dictionary_test()
+testcase['movie_network_test'] = movie_network_test()
 # testcase['testcase_1_1'] = testcase_1_1()
 # testcase['testcase_1_2'] = testcase_1_2()
 # testcase['testcase_1_3'] = testcase_1_3()
