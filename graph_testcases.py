@@ -166,6 +166,7 @@ def testcase_4():
     global total
     global f
     testcase_4 = kosaraju(graph)
+
     if(len(data["testcase_4"])==len(testcase_4)):
         print("\nTestCase 4 Passed")
     else:
@@ -180,15 +181,17 @@ testcase = {}
 # testcase['dictionary_test'] = dictionary_test()
 testcase['movie_network_test'] = movie_network_test()
 
-# bfs
-testcase['testcase_1_1'] = testcase_1_1()
-testcase['testcase_1_2'] = testcase_1_2()
-testcase['testcase_1_3'] = testcase_1_3()
+# # bfs
+# testcase['testcase_1_1'] = testcase_1_1()
+# testcase['testcase_1_2'] = testcase_1_2()
+# testcase['testcase_1_3'] = testcase_1_3()
 
-# dfs
+# # dfs
 testcase['testcase_2_1'] = testcase_2_1()
 testcase['testcase_2_2'] = testcase_2_2()
 testcase['testcase_2_3'] = testcase_2_3()
+
+# dijkstra
 # testcase['testcase_3'] = testcase_3()
 # testcase['testcase_4'] = testcase_4()
 

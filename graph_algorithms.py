@@ -1,3 +1,5 @@
+# BFS - BFS - BFS - BFS - BFS - BFS - BFS - BFS - BFS - BFS - BFS - BFS - BFS - BFS - BFS - BFS
+
 def bfs_queue_helper(queue, nodes):
     for node in nodes: queue.append(node)
     return queue
@@ -22,38 +24,35 @@ def bfs(graph, start_node, search_node=None):
 
     return path 
 
-dfs_path = []
+# DFS - DFS - DFS - DFS - DFS - DFS - DFS - DFS - DFS - DFS - DFS - DFS - DFS - DFS - DFS  
+discovered = []
 dfs_flag = False
 def dfs(graph, start_node, search_node=None):
-    global dfs_path, dfs_flag
-    dfs_path = []
+    global discovered, dfs_flag
+    discovered = [start_node]
     dfs_flag = False
 
-    dfs_recursion(graph, start_node, search_node)
+    for key in graph[start_node]:
+        if key not in discovered:
+            dfs_recursion(graph, start_node, search_node)
 
     if dfs_flag: return 1
-    if search_node is not None:
-        return 0
+    if search_node is not None: return 0
     
-    return dfs_path
+    return discovered
 
 def dfs_recursion(graph, cur_node, search_node):
-    global dfs_path, dfs_flag
-
-    if dfs_flag: return # search node found
+    global discovered, dfs_flag
+    if dfs_flag: return         # search node found
     if search_node == cur_node: # search node found, exit out of all dfs
         dfs_flag = True
 
-    if cur_node not in dfs_path:
-        dfs_path.append(cur_node)
-    else:
-        return
-
+    discovered.append(cur_node)
     for node in graph[cur_node]:
-        dfs_recursion(graph, node, search_node)
+        if node not in discovered:
+            dfs_recursion(graph, node, search_node)
 
-
-
+# dijkstra - dijkstra - dijkstra - dijkstra - dijkstra - dijkstra - dijkstra - dijkstra - dijkstra - dijkstra 
 def dijkstra(graph, start_node, end_node):
     return
     # graph: a dictionary representing the graph where the keys are the nodes and the values
@@ -75,17 +74,92 @@ def dijkstra(graph, start_node, end_node):
     return [path, distance, hop_count]
 
 
+# SCC - SCC - SCC - SCC - SCC - SCC - SCC - SCC - SCC - SCC - SCC - SCC - SCC - SCC - SCC - SCC - SCC
+scc_stack = []
+scc_visited = []
+def scc_dfs(graph):
+    global scc_stack, scc_visited
+    scc_visited = []
+
+    for key in graph:
+        if key not in scc_visited:
+            scc_dfs_recursion(graph, key)
+
+    return scc_stack
+
+def scc_dfs_recursion(graph, cur_node):
+    global scc_stack, scc_visited
+
+    if cur_node not in scc_visited:
+        scc_visited.append(cur_node)
+    else:
+        return
+    
+    for node in graph[cur_node]:
+        if node not in scc_visited:
+            scc_dfs_recursion(graph, node)
+    scc_stack.append(cur_node)
+
+###### second pass
+discovered = []
+def scc_dfs(graph):
+    global discovered
+    discovered = []
+    for key in graph:
+        if key not in discovered:
+            scc_dfs_recursion(graph, key)
+    return discovered
+
+def scc_dfs_recursion(graph, cur_node):
+    global discovered
+    discovered.append(cur_node) # discovered
+    for node in graph[cur_node]:
+        if node not in discovered:
+            scc_dfs_recursion(graph, node)
+
+###### second pass################
+cur_components = []
+def scc_second(graph, stack):
+    global discovered, cur_components
+    discovered = []
+    components = []
+    count = 0
+    for key in stack:
+        if key not in discovered:
+            count+=1
+            if len(cur_components) > 0:
+                components.append(cur_components)
+                cur_components = []
+            second_recursion(graph, key)
+    if len(cur_components) > 0:
+        if cur_components not in components:
+            components.append(cur_components)
+
+    return components
+
+def second_recursion(graph, cur_node):
+    global discovered, cur_components
+
+    discovered.append(cur_node)
+    cur_components.append(cur_node)
+
+    for node in graph[cur_node]:
+        if node not in discovered:
+            second_recursion(graph, node)
 
 
-# (strongly connected components)
+def graph_transpose(graph):
+    transpose = {}
+    for key in graph: transpose[key] = {}
+    
+    for node in graph:
+        for key in graph[node]:
+            transpose[key][node] = graph[node][key]
+            
+    return transpose
+
 def kosaraju(graph):
-    return
-    # graph: a dictionary representing the graph where the keys are the nodes and the values
-            # are dictionaries representing the edges and their weights.
-    #Note: Here you need to call dfs function multiple times so you can Implement seperate
-         # kosaraju_dfs function if required.
-
-    #The output:
-        #list of strongly connected components in the graph,
-          #where each component is a list of nodes. each component:[nconst2, nconst3, nconst8,...] -> list of nconst id's.
+    stack = scc_dfs(graph)
+    transpose = graph_transpose(graph)
+    components = scc_second(transpose, stack)
     return components
