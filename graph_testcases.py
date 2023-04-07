@@ -20,13 +20,13 @@ def dictionary_test():
     global total
     global f
 
-    test = data["dictionary_test"]
-    for key in test:
-        if nconst_title[key] != test[key]:
-            print(key)
-            print(nconst_title[key])
-            print()
-            print(test[key])
+    # test = data["dictionary_test"]
+    # for key in test:
+    #     if nconst_title[key] != test[key]:
+    #         print(key)
+    #         print(nconst_title[key])
+    #         print()
+    #         print(test[key])
             
         
     if(data["dictionary_test"] == nconst_title):
@@ -178,21 +178,23 @@ def testcase_4():
 
 testcase = {}
 
-# testcase['dictionary_test'] = dictionary_test()
+testcase['dictionary_test'] = dictionary_test()
 testcase['movie_network_test'] = movie_network_test()
 
-# # bfs
-# testcase['testcase_1_1'] = testcase_1_1()
-# testcase['testcase_1_2'] = testcase_1_2()
-# testcase['testcase_1_3'] = testcase_1_3()
+# bfs
+testcase['testcase_1_1'] = testcase_1_1()
+testcase['testcase_1_2'] = testcase_1_2()
+testcase['testcase_1_3'] = testcase_1_3()
 
-# # dfs
+# dfs
 testcase['testcase_2_1'] = testcase_2_1()
 testcase['testcase_2_2'] = testcase_2_2()
 testcase['testcase_2_3'] = testcase_2_3()
 
 # dijkstra
-# testcase['testcase_3'] = testcase_3()
-# testcase['testcase_4'] = testcase_4()
+testcase['testcase_3'] = testcase_3()
+
+# SCC
+testcase['testcase_4'] = testcase_4()
 
 print("\n\nTotal Test Cases Passed : {}\nTotal Test Cases Failed : {}".format(total-f,f))

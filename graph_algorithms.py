@@ -1,5 +1,5 @@
+import copy 
 # BFS - BFS - BFS - BFS - BFS - BFS - BFS - BFS - BFS - BFS - BFS - BFS - BFS - BFS - BFS - BFS
-
 def bfs_queue_helper(queue, nodes):
     for node in nodes: queue.append(node)
     return queue
@@ -53,25 +53,50 @@ def dfs_recursion(graph, cur_node, search_node):
             dfs_recursion(graph, node, search_node)
 
 # dijkstra - dijkstra - dijkstra - dijkstra - dijkstra - dijkstra - dijkstra - dijkstra - dijkstra - dijkstra 
-def dijkstra(graph, start_node, end_node):
-    return
-    # graph: a dictionary representing the graph where the keys are the nodes and the values
-            # are dictionaries representing the edges and their weights.
-    # start_node: the starting node to begin the search.
-    # end_node: the node that we want to reach.
+def dijkstra(graph, start_node, end_node):    
+    # bfs traversal to get the possible nodes from starting node
+    visited = []
+    queue = [start_node]
 
-    # Outputs:
-        #1. If the end_node is not reachable from the start_node, the function returns 0.
+    while len(queue) > 0:
+        cur_node = queue.pop(0)
+        if cur_node not in visited:
+            visited.append(cur_node)
+            queue = bfs_queue_helper(queue, graph[cur_node])
+    
+    if end_node not in visited:
+        return 0
+    
+    node_weight = {}
+    node_path = {}
 
-        #2. If the end_node is reachable from the start_node, the function returns a list containing three elements:
-                #2.1 The first element is a list representing the shortest path from start_node to end_node.
-                     #[list of nconst values in the visited order]
-                #2.2 The second element is the total distance of the shortest path.
-                     #(summation of the distances or edge weights between minimum visited nodes)
-                #2.3 The third element is Hop Count between start_node and end_node.
+    for node in visited:
+        node_weight[node] = 999
+        node_path[node] = []
+        
+    node_weight[start_node] = 0
+    
+    # pseudo dijstra algo -  or something similar :\
+    for cur_node in visited:
+        for neigh in graph[cur_node]:
 
-    # Return the shortest path and distances
-    return [path, distance, hop_count]
+            edge_cost = graph[cur_node][neigh]
+
+            new_weight = copy.deepcopy(node_weight[cur_node]) + edge_cost
+            cur_weight = node_weight[neigh]
+
+            new_path = copy.deepcopy(node_path[cur_node])
+            new_path.append(cur_node)
+
+            if cur_weight > new_weight:
+                node_weight[neigh] = new_weight
+                node_path[neigh] = new_path
+            
+
+    goal_path = node_path[end_node]
+    goal_path.append(end_node)
+    ret = [goal_path, node_weight[end_node], len(node_path[end_node])-1]
+    return ret[0], ret[1], ret[2]
 
 
 # SCC - SCC - SCC - SCC - SCC - SCC - SCC - SCC - SCC - SCC - SCC - SCC - SCC - SCC - SCC - SCC - SCC

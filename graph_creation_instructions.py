@@ -1,10 +1,13 @@
 #Dictionary Creation
 import pandas as pd
+from unidecode import unidecode
+
 
 class TitleDictionary:
 
     def __init__(self, csv_path):
         self.df = pd.read_csv(csv_path)
+        self.df["primaryTitle"] = self.df["primaryTitle"].apply(unidecode)
         self.title_dict = self._create_title_dict()
         self.profession_dict = self._create_profession_dict()
 
@@ -15,18 +18,18 @@ class TitleDictionary:
         #Create a dictionary in the format:
         #{nconst:[movie_names actors/directors involved in], here the actor/director is determined by id: nconst}
         #example dictionary looks like:
-        #{'nm6551690': ['The Dreaded Hong Kong SneezeThe Great Bank Robbery',
-         #  'The Reluctant RobotThe Royal Foil',
-         #  'Theres No Business Like Snow Business'],
-         #
-         #  'nm8002705': ['The Awful Awakening of Claudius Brodequin',
-         #  'The Dreaded Arrival of Captain Tardivaux',
-         #  'The Glorious Triumph of Barthelemey Piechut',
-         #  'The Magnificent Idea of Barthelemey Piechut the Mayor',
-         #  'The Painful Infliction of Nicholas the Beadle',
-         #  'The Scandalous Outcome of a Night of Destruction',
-         #  'The Spirited Protest of Justine Pulet',
-         #  'The Triumphant Inauguration of a Municipal Amenity']}
+        # {'nm6551690': ['The Dreaded Hong Kong SneezeThe Great Bank Robbery',
+        #   'The Reluctant RobotThe Royal Foil',
+        #   'Theres No Business Like Snow Business'],
+        #
+        #   'nm8002705': ['The Awful Awakening of Claudius Brodequin',
+        #   'The Dreaded Arrival of Captain Tardivaux',
+        #   'The Glorious Triumph of Barthelemey Piechut',
+        #   'The Magnificent Idea of Barthelemey Piechut the Mayor',
+        #   'The Painful Infliction of Nicholas the Beadle',
+        #   'The Scandalous Outcome of a Night of Destruction',
+        #   'The Spirited Protest of Justine Pulet',
+        #   'The Triumphant Inauguration of a Municipal Amenity']}
         title_dict = {}
 
         return title_dict #return the Created {nconst:[movie_titles]} dictionary
@@ -40,14 +43,14 @@ class TitleDictionary:
         #while creating this dictionary values put _d at end of the name to indicate the person name as director and _a to represent the actor.
         #See the below example to understand more clearly.
         #example dictionary looks like:
-        #{'nm0465106': 'Hal Roach Jr._d',
-         # 'nm6081065': 'Benjamin H. Kline_d',
-         # 'nm0962553': 'William Asher_d',
-         # 'nm4337938': 'Rod Serling_a',
-         # 'nm5829291': 'Sydney Newman_d',
-         # 'nm7171552': 'Wolfgang Menge_a',
-         # 'nm0231693': 'Blake Edwards_d',
-         # 'nm6446679': 'Bob Wehling_a'}
+        # {'nm0465106': 'Hal Roach Jr._d',
+        #  'nm6081065': 'Benjamin H. Kline_d',
+        #  'nm0962553': 'William Asher_d',
+        #  'nm4337938': 'Rod Serling_a',
+        #  'nm5829291': 'Sydney Newman_d',
+        #  'nm7171552': 'Wolfgang Menge_a',
+        #  'nm0231693': 'Blake Edwards_d',
+        #  'nm6446679': 'Bob Wehling_a'}
         profession_dict = {}
 
         return profession_dict #return the Created {nconst:person_name_a/d} dictionary
@@ -84,14 +87,13 @@ class MovieNetwork:
         #By following the above conditions create a graph (use only dictionary datastructure: self.graph)
         #example graph looks like:
           # {'nm0962553': {'nm8630849': 3,
-             #  'nm1172995': 7,
-             #  'nm8742830': 16,
-             #  'nm6225202': 4,
-             #  'nm4366294': 4},
-             # 'nm8630849': {},
-             # 'nm1172995': {'nm0962553': 7},
-             # 'nm8742830': {'nm0962553': 16},
-             # 'nm6225202': {}}
+          #     'nm1172995': 7,
+          #     'nm8742830': 16,
+          #     'nm6225202': 4,
+          #     'nm4366294': 4},
+          #    'nm8630849': {},
+          #    'nm1172995': {'nm0962553': 7},
+          #    'nm8742830': {'nm0962553': 16},
+          #    'nm6225202': {}}
 
         return graph
-``
